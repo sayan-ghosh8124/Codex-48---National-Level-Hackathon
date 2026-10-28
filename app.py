@@ -1,3 +1,5 @@
+from backend.app import app
+
 from __future__ import annotations
 
 import os
