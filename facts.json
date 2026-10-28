@@ -1,0 +1,72 @@
+[
+  {
+    "id": "F1",
+    "statement": "Lumio is a SaaS productivity platform for teams that manage workflows, tasks, and context.",
+    "value": "SaaS productivity platform",
+    "source": "Lumio company brief",
+    "review_by": "2026-12-31"
+  },
+  {
+    "id": "F2",
+    "statement": "Lumio helps teams centralize work, reduce context switching, and track progress across projects.",
+    "value": "Centralizes workflows and reduces context switching",
+    "source": "Product overview",
+    "review_by": "2026-12-31"
+  },
+  {
+    "id": "F3",
+    "statement": "Lumio supports task management, notes, automation, and shared views for cross-functional teams.",
+    "value": "Supports task management, notes, automation, and shared views",
+    "source": "Feature matrix",
+    "review_by": "2026-12-31"
+  },
+  {
+    "id": "F4",
+    "statement": "Lumio has a customer retention rate above 90 percent in the last certified reporting period.",
+    "value": "Retention above 90%",
+    "source": "Q4 retention report",
+    "review_by": "2026-12-31"
+  },
+  {
+    "id": "F5",
+    "statement": "Lumio's deployment time for new product workstreams is measured in days, not months.",
+    "value": "Deployment measured in days",
+    "source": "Customer case study",
+    "review_by": "2026-06-30"
+  },
+  {
+    "id": "F6",
+    "statement": "Lumio is designed to support distributed teams with secure shared workspaces.",
+    "value": "Supports distributed teams",
+    "source": "Security and trust overview",
+    "review_by": "2026-03-31"
+  },
+  {
+    "id": "F7",
+    "statement": "Lumio offers admin controls, role-based permissions, and audit logs for collaboration.",
+    "value": "Role-based permissions and audit logs",
+    "source": "Admin controls documentation",
+    "review_by": "2026-12-31"
+  },
+  {
+    "id": "F8",
+    "statement": "Lumio guarantees a 50 percent productivity increase for every team within 30 days of rollout.",
+    "value": "Guaranteed productivity increase",
+    "source": "Legacy campaign copy",
+    "review_by": "2024-01-15"
+  },
+  {
+    "id": "F9",
+    "statement": "Lumio is available in English, Spanish, and French for supported customer regions.",
+    "value": "Available in English, Spanish, and French",
+    "source": "Localization matrix",
+    "review_by": "2026-12-31"
+  },
+  {
+    "id": "F10",
+    "statement": "Lumio is designed for startup teams, growing mid-market companies, and enterprise programs.",
+    "value": "Market fit spans startup to enterprise",
+    "source": "Positioning framework",
+    "review_by": "2026-12-31"
+  }
+]

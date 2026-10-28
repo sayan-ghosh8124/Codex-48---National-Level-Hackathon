@@ -1,0 +1,221 @@
+/* ============================================================
+   3d-depth.css — shared "enhanced realistic 3D" layer
+   ------------------------------------------------------------
+   Load this AFTER the page's own stylesheet so it can add depth
+   on top of the existing look. It intentionally does NOT change
+   layout, sizing, or the background scene. It:
+     1. powers the interactive tilt hook (.t3d / [data-tilt3d])
+        driven by tilt3d.js — damped rotation + a translateZ lift
+        that floats the surface toward the cursor,
+     2. adds a cursor-tracking specular glare on tilted surfaces
+        (tight highlight + broad soft sheen, --mx / --my),
+     3. stacks realistic multi-layer shadows on card/panel
+        surfaces: top bevel, key-light wash, bottom occlusion,
+        tight contact, near, and wide ambient drop,
+     4. gives buttons an extruded, pressable 3D feel.
+   All effects are pure CSS; motion is automatically disabled for
+   touch devices and "prefers-reduced-motion" users (tilt3d.js).
+   ============================================================ */
+
+/* ---------- 1. Interactive tilt (driven by tilt3d.js) ---------- */
+.t3d,
+[data-tilt3d] {
+  position: relative;
+  transform:
+    perspective(1100px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translateZ(var(--tz, 0px)); /* --tz lift is set by tilt3d.js */
+  transform-style: preserve-3d;
+  transition: transform 0.16s ease-out, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+/* Cursor-tracking glare: a tight specular spot plus a broad soft
+   sheen, both centered on --mx / --my (set by tilt3d.js). The
+   pseudo-element is non-interactive and fades out on pointer leave. */
+.t3d::after,
+[data-tilt3d]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      26% 20% at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.12),
+      transparent 70%
+    ),
+    radial-gradient(
+      70% 55% at var(--mx, 50%) var(--my, 50%),
+      rgba(190, 205, 255, 0.08),
+      rgba(255, 255, 255, 0.03) 45%,
+      transparent 72%
+    );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Deeper, heavier shadow stack + full glare while actively tilted
+   = the surface has clearly lifted off the page. */
+.t3d-on,
+[data-tilt3d].t3d-on {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.32),
+    0 12px 26px rgba(2, 4, 12, 0.42),
+    0 32px 68px rgba(2, 4, 12, 0.55);
+}
+.t3d-on::after,
+[data-tilt3d].t3d-on::after {
+  opacity: 1;
+}
+
+/* ---------- 2a. Large panels / cards: lit bevel + layered depth ---------- */
+.card,
+.modal-content,
+.formula-preview,
+.analyzer-summary,
+.analyzer-table-wrapper,
+.recommendations-table-wrapper,
+.cleaning-log-container,
+.risk-meter-container,
+.impact-container,
+.visual-element,
+.model-table-card,
+.model-table-card-canvas,
+.placeholder-content,
+.source-card,
+.dashboard-chart,
+.table-preview-visual,
+.cleaned-result,
+.warnings-container,
+.no-issues,
+.table-box {
+  box-shadow:
+    /* crisp top bevel (light catches the upper edge) */
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    /* soft key-light wash near the top edge */
+    inset 0 10px 18px -14px rgba(255, 255, 255, 0.1),
+    /* ambient occlusion pooling under the bottom edge */
+    inset 0 -12px 20px -16px rgba(0, 0, 0, 0.55),
+    /* tight contact shadow */
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    /* near shadow */
+    0 8px 20px rgba(2, 4, 12, 0.32),
+    /* wide ambient drop */
+    0 28px 64px rgba(2, 4, 12, 0.48);
+}
+
+/* ---------- 2b. Mid-size chips / rows ---------- */
+.stat-card,
+.filemeta,
+.kv,
+.column-item,
+.model-sidebar-item,
+.viz-item,
+.action-item {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -8px 14px -12px rgba(0, 0, 0, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 6px 16px rgba(2, 4, 12, 0.32);
+}
+
+/* ---------- 3a. Primary buttons: extruded + pressable ---------- */
+.btn,
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-get-started,
+.tool-btn {
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.28),
+    0 10px 22px rgba(2, 4, 12, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.btn:hover:not(:disabled),
+.btn-primary:hover,
+.btn-success:hover,
+.btn-danger:hover,
+.btn-get-started:hover,
+.tool-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.28),
+    0 16px 30px rgba(2, 4, 12, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.btn:active:not(:disabled),
+.btn-primary:active,
+.btn-success:active,
+.btn-danger:active,
+.btn-get-started:active,
+.tool-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.28),
+    0 6px 12px rgba(2, 4, 12, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- 3b. Secondary / ghost buttons: lighter extrusion ---------- */
+.btn-ghost,
+.nav-btn,
+.add-page-btn,
+.model-view-data-btn,
+.model-collapse-btn,
+.visual-action-btn,
+.modal-close,
+.btn-icon {
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.18),
+    0 8px 16px rgba(2, 4, 12, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.btn-ghost:hover,
+.nav-btn:hover,
+.add-page-btn:hover,
+.model-view-data-btn:hover,
+.model-collapse-btn:hover,
+.visual-action-btn:hover,
+.modal-close:hover,
+.btn-icon:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.18),
+    0 12px 22px rgba(2, 4, 12, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.btn-ghost:active,
+.nav-btn:active,
+.add-page-btn:active,
+.model-view-data-btn:active,
+.model-collapse-btn:active,
+.visual-action-btn:active,
+.modal-close:active,
+.btn-icon:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.18),
+    0 5px 10px rgba(2, 4, 12, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Keep disabled buttons flat (no fake pressable edge). */
+.btn:disabled {
+  box-shadow: none;
+  transform: none;
+}

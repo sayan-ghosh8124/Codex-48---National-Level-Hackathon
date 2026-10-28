@@ -1,0 +1,23 @@
+# Production deps for Render (Python 3.11). See README.md for start command.
+# Do not add tensorflow/torch here — use requirements-dev.txt locally.
+
+# Web
+Flask==3.0.3
+Flask-Cors==4.0.0
+gunicorn==21.2.0
+Werkzeug==3.0.3
+
+# BrandGuard requirements
+anthropic>=0.37.1
+python-dotenv>=1.0.1
+Pillow>=10.4.0
+pytest>=8.3.2
+
+# ML / data (backend/automl.py, backend/app.py)
+numpy>=1.26,<2.0
+pandas>=2.2,<3.0
+scikit-learn>=1.5,<2.0
+scipy>=1.11,<2.0
+xgboost>=2.0,<4.0
+joblib>=1.4,<2.0
+openpyxl>=3.1.0

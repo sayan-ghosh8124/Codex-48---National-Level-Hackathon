@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova BI - Interactive Report</title>
+  <link rel="stylesheet" href="bi-report.css?v=4">
+  <link rel="stylesheet" href="3d-depth.css?v=2">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <!-- 3D Realistic Background (pure CSS, no WebGL) -->
+  <div class="bg-scene" aria-hidden="true">
+    <div class="bg-base"></div>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="stars stars-1"></div>
+    <div class="stars stars-2"></div>
+    <div class="grid-floor"></div>
+    <div class="shape-ring ring-1"></div>
+    <div class="shape-ring ring-2"></div>
+    <div class="cube">
+      <span class="face f-front"></span>
+      <span class="face f-back"></span>
+      <span class="face f-right"></span>
+      <span class="face f-left"></span>
+      <span class="face f-top"></span>
+      <span class="face f-bottom"></span>
+    </div>
+    <div class="float-orb orb-1"></div>
+    <div class="float-orb orb-2"></div>
+    <div class="float-orb orb-3"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="powerbi-app">
+    <!-- Top Ribbon -->
+    <header class="powerbi-ribbon">
+      <div class="ribbon-left">
+        <div class="logo">
+          <svg class="logo-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7C5CFF"/>
+                <stop offset="100%" style="stop-color:#35D2FF"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" transform="rotate(-24 32 32)"/>
+            <circle cx="32" cy="32" r="8.5" fill="url(#logoGrad)"/>
+            <circle cx="32" cy="32" r="13" fill="none" stroke="url(#logoGrad)" stroke-width="1" opacity="0.35"/>
+            <circle cx="52" cy="20" r="2.6" fill="#35D2FF"/>
+          </svg>
+          <span class="logo-text">Nova Power BI</span>
+        </div>
+        <nav class="ribbon-nav">
+          <button class="ribbon-tab active" data-tab="home">Home</button>
+          <button class="ribbon-tab" data-tab="insert">Insert</button>
+          <button class="ribbon-tab" data-tab="modeling">Modeling</button>
+          <button class="ribbon-tab" data-tab="view">View</button>
+          <button class="ribbon-tab" data-tab="help">Help</button>
+        </nav>
+      </div>
+      <div class="ribbon-right">
+        <button class="btn-icon" title="Undo">↩️</button>
+        <button class="btn-icon" title="Redo">↪️</button>
+        <button class="btn-primary" onclick="downloadDashboard()" title="Download Dashboard">� Download</button>
+        <button class="btn-primary" id="publishBtn" onclick="publishReport()">📤 Publish</button>
+      </div>
+    </header>
+
+    <!-- Home Ribbon Tools -->
+    <div class="ribbon-toolbar" id="ribbonHome">
+      <div class="toolbar-section">
+        <span class="toolbar-label">Clipboard</span>
+        <div class="toolbar-buttons">
+          <button class="tool-btn" title="Cut">✂️</button>
+          <button class="tool-btn" title="Copy">📋</button>
+          <button class="tool-btn" title="Paste">📌</button>
+        </div>
+      </div>
+      <div class="toolbar-section">
+        <span class="toolbar-label">Data</span>
+        <div class="toolbar-buttons">
+          <button class="tool-btn" id="getDataBtn" title="Get Data">📥 Get Data</button>
+          <button class="tool-btn" id="refreshBtn" title="Refresh">🔄 Refresh</button>
+          <button class="tool-btn" id="transformBtn" title="Transform Data">⚡ Transform</button>
+        </div>
+      </div>
+      <div class="toolbar-section">
+        <span class="toolbar-label">Calculations</span>
+        <div class="toolbar-buttons">
+          <button class="tool-btn" title="New Measure">📐 New Measure</button>
+          <button class="tool-btn" title="Quick Measure">⚡ Quick Measure</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Ribbon Tools -->
+    <div class="ribbon-toolbar hidden" id="ribbonView">
+      <div class="toolbar-section">
+        <span class="toolbar-label">Show</span>
+        <div class="toolbar-buttons">
+          <button class="tool-btn" id="viewTableDataBtn" title="View Table Data">📊 Table Data</button>
+          <button class="tool-btn" title="Gridlines">▦ Gridlines</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="powerbi-workspace">
+      <!-- Left Pane: Data/Model -->
+      <aside class="left-pane">
+        <div class="pane-tabs">
+          <button class="pane-tab active" data-pane="data">📁 Data</button>
+          <button class="pane-tab" data-pane="model">🔗 Model</button>
+        </div>
+        
+        <!-- Data Pane -->
+        <div class="pane-content" id="dataPane">
+          <div class="search-box">
+            <input type="text" id="fieldSearch" placeholder="🔍 Search fields...">
+          </div>
+          <div class="data-section">
+            <div class="section-header" onclick="toggleSection(this)">
+              <span class="toggle-icon">▼</span>
+              <span>📊 Tables</span>
+            </div>
+            <div class="section-content expanded" id="tablesList">
+              <!-- Tables will be populated here -->
+            </div>
+          </div>
+          <div class="data-section">
+            <div class="section-header" onclick="toggleSection(this)">
+              <span class="toggle-icon">▼</span>
+              <span>📐 Measures</span>
+            </div>
+            <div class="section-content expanded" id="measuresList">
+              <div class="measure-item" draggable="true">
+                <span class="measure-icon">fx</span>
+                <span>Total Sales</span>
+              </div>
+              <div class="measure-item" draggable="true">
+                <span class="measure-icon">fx</span>
+                <span>Average Price</span>
+              </div>
+              <div class="measure-item" draggable="true">
+                <span class="measure-icon">fx</span>
+                <span>Count Orders</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Model Pane -->
+        <div class="pane-content hidden" id="modelPane">
+          <div class="model-view-container" id="modelViewContainer">
+            <!-- Table cards will be rendered here -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Report Canvas -->
+      <main class="report-canvas-area">
+        <!-- Canvas Tabs -->
+        <div class="canvas-tabs">
+          <div class="tab active" data-page="1">
+            <span>📄 Page 1</span>
+            <button class="tab-close">×</button>
+          </div>
+          <div class="tab" data-page="2">
+            <span>📄 Page 2</span>
+            <button class="tab-close">×</button>
+          </div>
+          <button class="add-page-btn" title="Add Page">+</button>
+        </div>
+
+        <!-- Canvas -->
+        <div class="canvas-container" id="reportCanvas">
+          <div class="canvas-grid"></div>
+          <div class="canvas-placeholder" id="canvasPlaceholder">
+            <div class="placeholder-content">
+              <div class="placeholder-icon">
+              <svg width="72" height="72" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="placeholderLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#7C5CFF"/>
+                    <stop offset="100%" stop-color="#35D2FF"/>
+                  </linearGradient>
+                </defs>
+                <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="url(#placeholderLogoGrad)" stroke-width="2.5" transform="rotate(-24 32 32)"/>
+                <circle cx="32" cy="32" r="8.5" fill="url(#placeholderLogoGrad)"/>
+                <circle cx="32" cy="32" r="13" fill="none" stroke="url(#placeholderLogoGrad)" stroke-width="1" opacity="0.35"/>
+                <circle cx="52" cy="20" r="2.6" fill="#35D2FF"/>
+              </svg>
+            </div>
+              <h3>Build your report</h3>
+              <p>Drag fields from the Data pane</p>
+              <p>or select a visual from the Visualizations pane</p>
+              <button class="btn-get-started" id="getStartedBtn">🚀 Get Started</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page Navigation -->
+        <div class="page-navigator">
+          <button class="nav-btn" id="prevPage">◀</button>
+          <span class="page-indicator">Page 1 of 2</span>
+          <button class="nav-btn" id="nextPage">▶</button>
+        </div>
+      </main>
+
+      <!-- Right Pane: Visualizations & Format -->
+      <aside class="right-pane">
+        <div class="pane-tabs">
+          <button class="pane-tab active" data-pane="visualizations">📈 Visualizations</button>
+          <button class="pane-tab" data-pane="filters">🔍 Filters</button>
+          <button class="pane-tab" data-pane="format">🎨 Format</button>
+        </div>
+
+        <!-- Visualizations Pane -->
+        <div class="pane-content" id="visualizationsPane">
+          <div class="viz-grid">
+            <div class="viz-item" data-type="table" title="Table">
+              <div class="viz-icon">⊞</div>
+              <span>Table</span>
+            </div>
+            <div class="viz-item" data-type="matrix" title="Matrix">
+              <div class="viz-icon">⊞⊞</div>
+              <span>Matrix</span>
+            </div>
+            <div class="viz-item" data-type="card" title="Card">
+              <div class="viz-icon">▭</div>
+              <span>Card</span>
+            </div>
+            <div class="viz-item" data-type="multicard" title="Multi-row Card">
+              <div class="viz-icon">▭▭</div>
+              <span>Multi-row</span>
+            </div>
+            <div class="viz-item" data-type="bar" title="Clustered Bar Chart">
+              <div class="viz-icon">📊</div>
+              <span>Bar</span>
+            </div>
+            <div class="viz-item" data-type="column" title="Clustered Column Chart">
+              <div class="viz-icon">📶</div>
+              <span>Column</span>
+            </div>
+            <div class="viz-item" data-type="line" title="Line Chart">
+              <div class="viz-icon">📈</div>
+              <span>Line</span>
+            </div>
+            <div class="viz-item" data-type="area" title="Area Chart">
+              <div class="viz-icon">⬇</div>
+              <span>Area</span>
+            </div>
+            <div class="viz-item" data-type="pie" title="Pie Chart">
+              <div class="viz-icon">◐</div>
+              <span>Pie</span>
+            </div>
+            <div class="viz-item" data-type="donut" title="Donut Chart">
+              <div class="viz-icon">◯</div>
+              <span>Donut</span>
+            </div>
+            <div class="viz-item" data-type="scatter" title="Scatter Chart">
+              <div class="viz-icon">• •</div>
+              <span>Scatter</span>
+            </div>
+            <div class="viz-item" data-type="bubble" title="Bubble Chart">
+              <div class="viz-icon">○○</div>
+              <span>Bubble</span>
+            </div>
+            <div class="viz-item" data-type="map" title="Map">
+              <div class="viz-icon">🗺</div>
+              <span>Map</span>
+            </div>
+            <div class="viz-item" data-type="funnel" title="Funnel">
+              <div class="viz-icon">▽</div>
+              <span>Funnel</span>
+            </div>
+            <div class="viz-item" data-type="gauge" title="Gauge">
+              <div class="viz-icon">◐</div>
+              <span>Gauge</span>
+            </div>
+            <div class="viz-item" data-type="slicer" title="Slicer">
+              <div class="viz-icon">☰</div>
+              <span>Slicer</span>
+            </div>
+            <div class="viz-item" data-type="button-slicer" title="Button Slicer">
+              <div class="viz-icon">⬡</div>
+              <span>Btn Slicer</span>
+            </div>
+            <div class="viz-item" data-type="treemap" title="Treemap">
+              <div class="viz-icon">▦</div>
+              <span>Treemap</span>
+            </div>
+            <div class="viz-item" data-type="waterfall" title="Waterfall">
+              <div class="viz-icon">▁▃▅</div>
+              <span>Waterfall</span>
+            </div>
+          </div>
+
+          <!-- Field Wells -->
+          <div class="field-wells" id="fieldWells">
+            <div class="well" data-well="x-axis">
+              <span class="well-label">📊 X-axis</span>
+              <div class="well-dropzone" id="xAxisWell" ondrop="dropToWell(event, 'x-axis')" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)">
+                <span class="well-hint">Add data fields here</span>
+              </div>
+            </div>
+            <div class="well" data-well="y-axis">
+              <span class="well-label">📈 Y-axis</span>
+              <div class="well-dropzone" id="yAxisWell" ondrop="dropToWell(event, 'y-axis')" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)">
+                <span class="well-hint">Add data fields here</span>
+              </div>
+            </div>
+            <div class="well" data-well="legend">
+              <span class="well-label">🎨 Legend</span>
+              <div class="well-dropzone" id="legendWell" ondrop="dropToWell(event, 'legend')" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)">
+                <span class="well-hint">Add data fields here</span>
+              </div>
+            </div>
+            <div class="well" data-well="tooltips">
+              <span class="well-label">💡 Tooltips</span>
+              <div class="well-dropzone" id="tooltipsWell" ondrop="dropToWell(event, 'tooltips')" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)">
+                <span class="well-hint">Add data fields here</span>
+              </div>
+            </div>
+            <div class="well" data-well="filters">
+              <span class="well-label">🔍 Filters</span>
+              <div class="well-dropzone" id="filtersWell" ondrop="dropToWell(event, 'filters')" ondragover="allowDrop(event)" ondragleave="removeDragOver(event)">
+                <span class="well-hint">Add data fields here</span>
+              </div>
+            </div>
+            <button onclick="generateChartFromWells()" style="margin-top: 10px; padding: 10px 16px; background: #7C5CFF; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; width: 100%; font-weight: 600;">
+              📊 Generate Chart
+            </button>
+            <button onclick="clearFieldWells()" style="margin-top: 8px; padding: 6px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; width: 100%;">
+              🗑️ Clear All Fields
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters Pane -->
+        <div class="pane-content hidden" id="filtersPane">
+          <div class="filter-section">
+            <div class="filter-header">Filters on this page</div>
+            <div class="filter-list" id="pageFilters">
+              <p class="filter-empty">No filters applied</p>
+            </div>
+          </div>
+          <div class="filter-section">
+            <div class="filter-header">Filters on all pages</div>
+            <div class="filter-list" id="allPageFilters">
+              <p class="filter-empty">No filters applied</p>
+            </div>
+          </div>
+          <div class="filter-section">
+            <div class="filter-header">Drillthrough</div>
+            <div class="filter-list">
+              <p class="filter-empty">No drillthrough fields</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Format Pane -->
+        <div class="pane-content hidden" id="formatPane">
+          <div class="format-section">
+            <div class="format-header" onclick="toggleFormat(this)">
+              <span class="toggle-icon">▼</span>
+              <span>🎨 Visual</span>
+            </div>
+            <div class="format-content expanded">
+              <div class="format-option">
+                <label>Background</label>
+                <input type="color" id="vizBgColor" value="#ffffff">
+              </div>
+              <div class="format-option">
+                <label>Transparency</label>
+                <input type="range" id="vizTransparency" min="0" max="100" value="0">
+              </div>
+              <div class="format-option">
+                <label>Border</label>
+                <select id="vizBorder">
+                  <option>None</option>
+                  <option>Solid</option>
+                  <option>Dashed</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="format-section">
+            <div class="format-header" onclick="toggleFormat(this)">
+              <span class="toggle-icon">▼</span>
+              <span>📊 Title</span>
+            </div>
+            <div class="format-content expanded">
+              <div class="format-option">
+                <label>Title Text</label>
+                <input type="text" id="vizTitle" placeholder="Enter title">
+              </div>
+              <div class="format-option">
+                <label>Font Size</label>
+                <input type="number" id="titleFontSize" value="14" min="8" max="72">
+              </div>
+              <div class="format-option">
+                <label>Font Color</label>
+                <input type="color" id="titleColor" value="#333333">
+              </div>
+            </div>
+          </div>
+          <div class="format-section">
+            <div class="format-header" onclick="toggleFormat(this)">
+              <span class="toggle-icon">▼</span>
+              <span>📈 X-Axis</span>
+            </div>
+            <div class="format-content">
+              <div class="format-option">
+                <label><input type="checkbox" checked> Show axis</label>
+              </div>
+              <div class="format-option">
+                <label>Title</label>
+                <input type="text" placeholder="Axis title">
+              </div>
+            </div>
+          </div>
+          <div class="format-section">
+            <div class="format-header" onclick="toggleFormat(this)">
+              <span class="toggle-icon">▼</span>
+              <span>📈 Y-Axis</span>
+            </div>
+            <div class="format-content">
+              <div class="format-option">
+                <label><input type="checkbox" checked> Show axis</label>
+              </div>
+              <div class="format-option">
+                <label>Title</label>
+                <input type="text" placeholder="Axis title">
+              </div>
+            </div>
+          </div>
+          <div class="format-section">
+            <div class="format-header" onclick="toggleFormat(this)">
+              <span class="toggle-icon">▼</span>
+              <span>🎨 Data Colors</span>
+            </div>
+            <div class="format-content">
+              <div class="color-palette">
+                <div class="color-swatch" style="background: #7C5CFF;"></div>
+                <div class="color-swatch" style="background: #35D2FF;"></div>
+                <div class="color-swatch" style="background: #3DDC97;"></div>
+                <div class="color-swatch" style="background: #FFB347;"></div>
+                <div class="color-swatch" style="background: #FF6B6B;"></div>
+                <div class="color-swatch" style="background: #9B59B6;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Status Bar -->
+    <footer class="status-bar">
+      <div class="status-left">
+        <span id="dataStatus">⚠️ No data loaded</span>
+        <span class="divider">|</span>
+        <span id="vizCount">0 visuals</span>
+        <span class="divider">|</span>
+        <span id="lastRefresh">Last refresh: Never</span>
+      </div>
+      <div class="status-right">
+        <span>Page size: 16:9</span>
+        <span class="divider">|</span>
+        <span id="zoomLevel">100%</span>
+        <button class="btn-icon" id="zoomOut">−</button>
+        <button class="btn-icon" id="zoomIn">+</button>
+        <button class="btn-icon" id="fullscreen">⛶</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Data Import Modal -->
+  <div class="modal" id="dataModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📥 Get Data</h3>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="data-sources">
+          <div class="source-card" onclick="uploadFile()">
+            <div class="source-icon">📁</div>
+            <span>CSV/Excel</span>
+          </div>
+          <div class="source-card" onclick="uploadFile()">
+            <div class="source-icon">🗄</div>
+            <span>SQL Server</span>
+          </div>
+          <div class="source-card">
+            <div class="source-icon">☁</div>
+            <span>Azure</span>
+          </div>
+          <div class="source-card">
+            <div class="source-icon">🔗</div>
+            <span>Web</span>
+          </div>
+        </div>
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.json" hidden>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="bi-report.js"></script>
+  <script src="tilt3d.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+  {"id": "T1", "preferred": "Lumio", "banned": ["Lumi", "Lumiio", "LumioAI"], "note": "Use the official product name without adding extra suffixes or stylistic variants.", "rule_id": "R4"},
+  {"id": "T2", "preferred": "team workspace", "banned": ["workspace hub", "all-in-one command center"], "note": "Prefer clear utility language over inflated jargon.", "rule_id": "R7"},
+  {"id": "T3", "preferred": "AI assistant", "banned": ["magical AI", "genie", "intelligent autopilot"], "note": "Keep the description practical and specific.", "rule_id": "R7"},
+  {"id": "T4", "preferred": "workflow visibility", "banned": ["perfect clarity", "zero blind spots"], "note": "Use evidence-based outcomes, not exaggerated certainty.", "rule_id": "R1"},
+  {"id": "T5", "preferred": "secure workspace", "banned": ["unbreakable security", "impenetrable system"], "note": "Security claims must be tied to approved documentation.", "rule_id": "R2"},
+  {"id": "T6", "preferred": "productivity tool", "banned": ["game changer", "revolutionary"], "note": "Avoid promotional hype without proof.", "rule_id": "R11"},
+  {"id": "T7", "preferred": "role-based access", "banned": ["unlimited access", "everyone can edit"], "note": "Do not imply unrestricted permissions unless explicitly approved.", "rule_id": "R13"},
+  {"id": "T8", "preferred": "workflow automation", "banned": ["set it and forget it"], "note": "Automation should be described accurately and with appropriate limits.", "rule_id": "R15"},
+  {"id": "T9", "preferred": "customer outcomes", "banned": ["best in class", "industry leading"], "note": "Explicit outcome claims require proof or attribution.", "rule_id": "R11"},
+  {"id": "T10", "preferred": "automation templates", "banned": ["instant workflow miracles"], "note": "Keep the claim grounded in the actual functionality.", "rule_id": "R1"},
+  {"id": "T11", "preferred": "context switching", "banned": ["chaos-free workday"], "note": "References to operational improvements should be described in measurable terms.", "rule_id": "R7"},
+  {"id": "T12", "preferred": "audit log", "banned": ["perfect accountability"], "note": "The feature is auditable, not magically infallible.", "rule_id": "R2"},
+  {"id": "T13", "preferred": "shared views", "banned": ["seamless collaboration", "effortless teamwork"], "note": "Claims should stay close to the supported feature set.", "rule_id": "R15"},
+  {"id": "T14", "preferred": "cross-functional teams", "banned": ["all teams instantly align"], "note": "Avoid promises that imply universal adoption.", "rule_id": "R8"},
+  {"id": "T15", "preferred": "accessibility-first", "banned": ["fully accessible", "100% inclusive"], "note": "Accessibility claims require context and continued review.", "rule_id": "R5"},
+  {"id": "T16", "preferred": "clear headers", "banned": ["no-brainer setup"], "note": "Prefer concrete accessibility language over salesy shorthand.", "rule_id": "R14"},
+  {"id": "T17", "preferred": "in-app guidance", "banned": ["frictionless onboarding"], "note": "Avoid implying zero friction or universal ease.", "rule_id": "R1"},
+  {"id": "T18", "preferred": "approved naming", "banned": ["Lumio AI Suite", "Lumio Pro Max"], "note": "Follow the approved name set exactly.", "rule_id": "R4"},
+  {"id": "T19", "preferred": "role-based permissions", "banned": ["no restrictions", "everyone is an admin"], "note": "Permissions should be described as modelled and controlled.", "rule_id": "R13"},
+  {"id": "T20", "preferred": "deployment speed", "banned": ["instant launch", "zero setup"], "note": "Deployment claims require clear scope and evidence.", "rule_id": "R9"}
+]

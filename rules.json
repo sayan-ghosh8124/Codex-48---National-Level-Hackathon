@@ -1,0 +1,122 @@
+[
+  {
+    "id": "R1",
+    "category": "tone",
+    "text": "Use confident but non-hyperbolic language. Avoid claims that sound like exaggeration or guaranteed outcomes.",
+    "source_passage": "Brand voice and messaging guidelines, Section 3.2",
+    "owner": "brand-team",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R2",
+    "category": "claims",
+    "text": "Never say a product is guaranteed, risk-free, or 100% effective without approved substantiation.",
+    "source_passage": "Claims review checklist, item 4",
+    "owner": "legal",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R3",
+    "category": "claims",
+    "text": "Any quantifiable claim must match an approved fact or customer-verified data source.",
+    "source_passage": "Marketing claim approval requirements",
+    "owner": "compliance",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R4",
+    "category": "messaging",
+    "text": "Use product names and feature names consistently. Use 'Lumio' and 'Lumio AI Assistant' as approved naming.",
+    "source_passage": "Naming standards, p. 8",
+    "owner": "brand-team",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R5",
+    "category": "accessibility",
+    "text": "Write in plain language and provide meaningful alt text for images and visual content.",
+    "source_passage": "Accessibility standards for public marketing content",
+    "owner": "design",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R6",
+    "category": "visual",
+    "text": "Use the approved Lumio palette and ensure sufficient contrast between text and background colours.",
+    "source_passage": "Design system, color accessibility rules",
+    "owner": "design",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R7",
+    "category": "messaging",
+    "text": "Focus on customer outcomes and workflow efficiency, not vague buzzwords or generic AI hype.",
+    "source_passage": "Campaign brief for product launch",
+    "owner": "marketing",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R8",
+    "category": "tone",
+    "text": "Avoid imperative or aggressive language that pressures the reader without context.",
+    "source_passage": "Editorial standards",
+    "owner": "brand-team",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R9",
+    "category": "claims",
+    "text": "Percentages and 'up to' phrasing should be tied to explicit context and approved measurement windows.",
+    "source_passage": "Statistical claims framework",
+    "owner": "analytics",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R10",
+    "category": "visual",
+    "text": "Do not use logo treatments or product mockups outside approved channels or campaigns.",
+    "source_passage": "Visual identity review",
+    "owner": "brand-team",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R11",
+    "category": "messaging",
+    "text": "Prefer specific, verifiable customer value statements over broad statements like 'best in class'.",
+    "source_passage": "Messaging architecture",
+    "owner": "marketing",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R12",
+    "category": "tone",
+    "text": "Use inclusive language and avoid fear-based or shame-based framing.",
+    "source_passage": "Editorial voice and tone guide",
+    "owner": "brand-team",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R13",
+    "category": "claims",
+    "text": "Product claims should be accurate for all intended markets and geographies.",
+    "source_passage": "Global content standards",
+    "owner": "compliance",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R14",
+    "category": "accessibility",
+    "text": "Aim for readability with short sentences and clear headings that support scanning.",
+    "source_passage": "Content accessibility checklist",
+    "owner": "content",
+    "effective_date": "2025-01-01"
+  },
+  {
+    "id": "R15",
+    "category": "messaging",
+    "text": "When discussing productivity gains, describe how the workflow changes and what value the customer sees.",
+    "source_passage": "Positioning framework",
+    "owner": "marketing",
+    "effective_date": "2025-01-01"
+  }
+]

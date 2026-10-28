@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nova Logo Concepts — pick one</title>
+<style>
+  :root { --purple:#7C5CFF; --cyan:#35D2FF; }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: radial-gradient(120% 120% at 50% 0%, #101528 0%, #070a14 60%, #04060c 100%);
+    color: #e8ecf8;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    padding: 40px 32px 80px;
+  }
+  h1 { font-size: 22px; margin-bottom: 6px; }
+  .hint { color: #8b93ad; font-size: 14px; margin-bottom: 32px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+  .concept {
+    background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .concept h2 { font-size: 15px; margin-bottom: 4px; }
+  .concept .desc { font-size: 12.5px; color: #8b93ad; margin-bottom: 16px; line-height: 1.4; }
+  .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .mark { flex: 0 0 auto; }
+  .wordmark { display: flex; flex-direction: column; line-height: 1.05; }
+  .wordmark .b1 { font-size: 19px; font-weight: 750; letter-spacing: 0.3px;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .wordmark .b2 { font-size: 12px; font-weight: 500; color: #aeb6d0; letter-spacing: 2.5px; text-transform: uppercase; }
+  .sizes { display: flex; align-items: flex-end; gap: 16px; margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(255,255,255,0.12); }
+  .sizes span { font-size: 11px; color: #6d7590; display: block; text-align: center; margin-top: 6px; }
+  .cell { display: flex; flex-direction: column; align-items: center; }
+  /* context strip: how it looks in a ribbon */
+  .ribbon {
+    margin-top: 18px; padding: 10px 14px; border-radius: 10px;
+    background: rgba(10, 13, 24, 0.8); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .ribbon .rt { font-size: 13px; font-weight: 600; color: #dfe4f5; }
+  .ribbon .tabs { margin-left: auto; display: flex; gap: 14px; font-size: 12px; color: #7f87a3; }
+</style>
+</head>
+<body>
+  <h1>Nova Logo Concepts</h1>
+  <p class="hint">Same purple→cyan palette as the current app. Open this file in a browser, pick a concept by its number, and tell me (e.g. "concept 3, use on both pages").</p>
+
+  <div class="grid">
+
+    <!-- ============ CONCEPT 1: Orbit Nova ============ -->
+    <div class="concept">
+      <h2>1 · Orbit Nova</h2>
+      <p class="desc">A bright core star with a tilted orbit ring — "nova" as a star, with motion/energy. Reads well small.</p>
+      <div class="row">
+        <svg class="mark" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="c1g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7C5CFF"/><stop offset="100%" stop-color="#35D2FF"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="url(#c1g)" stroke-width="2.5"
+                   transform="rotate(-24 32 32)"/>
+          <circle cx="32" cy="32" r="8.5" fill="url(#c1g)"/>
+          <circle cx="32" cy="32" r="13" fill="none" stroke="url(#c1g)" stroke-width="1" opacity="0.35"/>
+          <circle cx="52" cy="20" r="2.6" fill="#35D2FF"/>
+        </svg>
+        <div class="wordmark"><span class="b1">Nova</span><span class="b2">Dominators</span></div>
+      </div>
+      <div class="ribbon">
+        <svg width="26" height="26" viewBox="0 0 64 64"><use href="#c1u"/></svg>
+        <span class="rt">Nova Power BI</span>
+        <span class="tabs"><span>Home</span><span>Insert</span><span>Modeling</span></span>
+      </div>
+    </div>
+
+    <!-- ============ CONCEPT 2: N Monogram ============ -->
+    <div class="concept">
+      <h2>2 · N Monogram</h2>
+      <p class="desc">A bold geometric "N" in a gradient rounded tile — classic, clean, instant brand recall.</p>
+      <div class="row">
+        <svg class="mark" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="c2g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7C5CFF"/><stop offset="100%" stop-color="#35D2FF"/>
+            </linearGradient>
+            <linearGradient id="c2t" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#dfe4ff"/>
+            </linearGradient>
+          </defs>
+          <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#c2g)"/>
+          <path d="M19 45 V19 l26 26 V19" fill="none" stroke="url(#c2t)" stroke-width="6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="wordmark"><span class="b1">Nova</span><span class="b2">Dominators</span></div>
+      </div>
+      <div class="ribbon">
+        <svg width="26" height="26" viewBox="0 0 64 64">
+          <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#c2g)"/>
+          <path d="M19 45 V19 l26 26 V19" fill="none" stroke="url(#c2t)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="rt">Nova Power BI</span>
+        <span class="tabs"><span>Home</span><span>Insert</span><span>Modeling</span></span>
+      </div>
+    </div>
+
+    <!-- ============ CONCEPT 3: Prism Cube ============ -->
+    <div class="concept">
+      <h2>3 · Prism Cube</h2>
+      <p class="desc">An isometric 3D cube — nods to the app's 3D space theme. Distinct, techy, data-ish.</p>
+      <div class="row">
+        <svg class="mark" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="c3a" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8f74ff"/><stop offset="100%" stop-color="#7C5CFF"/>
+            </linearGradient>
+            <linearGradient id="c3b" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#5aa8ff"/><stop offset="100%" stop-color="#35D2FF"/>
+            </linearGradient>
+            <linearGradient id="c3c" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#2b8fd4"/><stop offset="100%" stop-color="#7C5CFF"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 6 L56 20 L32 34 L8 20 Z" fill="url(#c3a)"/>
+          <path d="M8 20 L32 34 L32 60 L8 46 Z" fill="url(#c3c)"/>
+          <path d="M56 20 L32 34 L32 60 L56 46 Z" fill="url(#c3b)"/>
+          <path d="M32 6 L56 20 L32 34 L8 20 Z" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+        </svg>
+        <div class="wordmark"><span class="b1">Nova</span><span class="b2">Dominators</span></div>
+      </div>
+      <div class="ribbon">
+        <svg width="26" height="26" viewBox="0 0 64 64">
+          <path d="M32 6 L56 20 L32 34 L8 20 Z" fill="url(#c3a)"/>
+          <path d="M8 20 L32 34 L32 60 L8 46 Z" fill="url(#c3c)"/>
+          <path d="M56 20 L32 34 L32 60 L56 46 Z" fill="url(#c3b)"/>
+        </svg>
+        <span class="rt">Nova Power BI</span>
+        <span class="tabs"><span>Home</span><span>Insert</span><span>Modeling</span></span>
+      </div>
+    </div>
+
+    <!-- ============ CONCEPT 4: Data Spark ============ -->
+    <div class="concept">
+      <h2>4 · Data Spark</h2>
+      <p class="desc">A rising pulse line ending in a spark — "raw data → insight". Feels like a chart coming alive.</p>
+      <div class="row">
+        <svg class="mark" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="c4g" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#7C5CFF"/><stop offset="100%" stop-color="#35D2FF"/>
+            </linearGradient>
+          </defs>
+          <path d="M6 44 L20 44 L28 28 L38 48 L46 34 L58 34" fill="none" stroke="url(#c4g)"
+                stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="58" cy="34" r="4" fill="#35D2FF"/>
+          <path d="M58 24 v-6 M66 34 h6 M64 28 l4.5 -4.5 M52 28 l-4.5 -4.5" stroke="#35D2FF"
+                stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+        </svg>
+        <div class="wordmark"><span class="b1">Nova</span><span class="b2">Dominators</span></div>
+      </div>
+      <div class="ribbon">
+        <svg width="26" height="26" viewBox="0 0 64 64">
+          <path d="M6 44 L20 44 L28 28 L38 48 L46 34 L58 34" fill="none" stroke="url(#c4g)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="58" cy="34" r="4" fill="#35D2FF"/>
+        </svg>
+        <span class="rt">Nova Power BI</span>
+        <span class="tabs"><span>Home</span><span>Insert</span><span>Modeling</span></span>
+      </div>
+    </div>
+
+    <!-- ============ CONCEPT 5: Refined Star ============ -->
+    <div class="concept">
+      <h2>5 · Refined Star</h2>
+      <p class="desc">Closest to the current look, but polished: single gradient star with a soft glow ring — least disruptive change.</p>
+      <div class="row">
+        <svg class="mark" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="c5g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7C5CFF"/><stop offset="100%" stop-color="#35D2FF"/>
+            </linearGradient>
+            <radialGradient id="c5halo" cx="50%" cy="50%" r="50%">
+              <stop offset="55%" stop-color="rgba(124,92,255,0)"/>
+              <stop offset="100%" stop-color="rgba(53,210,255,0.25)"/>
+            </radialGradient>
+          </defs>
+          <circle cx="32" cy="32" r="30" fill="url(#c5halo)"/>
+          <path d="M32 6 C34 24 40 30 58 32 C40 34 34 40 32 58 C30 40 24 34 6 32 C24 30 30 24 32 6 Z"
+                fill="url(#c5g)"/>
+          <circle cx="47" cy="17" r="2.4" fill="#35D2FF"/>
+        </svg>
+        <div class="wordmark"><span class="b1">Nova</span><span class="b2">Dominators</span></div>
+      </div>
+      <div class="ribbon">
+        <svg width="26" height="26" viewBox="0 0 64 64">
+          <path d="M32 6 C34 24 40 30 58 32 C40 34 34 40 32 58 C30 40 24 34 6 32 C24 30 30 24 32 6 Z" fill="url(#c5g)"/>
+          <circle cx="47" cy="17" r="2.4" fill="#35D2FF"/>
+        </svg>
+        <span class="rt">Nova Power BI</span>
+        <span class="tabs"><span>Home</span><span>Insert</span><span>Modeling</span></span>
+      </div>
+    </div>
+
+    <!-- ============ CONCEPT 6: Hex Data Core ============ -->
+    <div class="concept">
+      <h2>6 · Hex Data Core</h2>
+      <p class="desc">A hexagon shell with a gradient core dot — structured, "engine/core" feel; pairs with the AutoML engine badge.</p>
+      <div class="row">
+        <svg class="mark" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="c6g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7C5CFF"/><stop offset="100%" stop-color="#35D2FF"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 4 L56 18 V46 L32 60 L8 46 V18 Z" fill="none" stroke="url(#c6g)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M32 14 L47 23 V41 L32 50 L17 41 V23 Z" fill="none" stroke="url(#c6g)" stroke-width="1.4" opacity="0.45"/>
+          <circle cx="32" cy="32" r="7" fill="url(#c6g)"/>
+        </svg>
+        <div class="wordmark"><span class="b1">Nova</span><span class="b2">Dominators</span></div>
+      </div>
+      <div class="ribbon">
+        <svg width="26" height="26" viewBox="0 0 64 64">
+          <path d="M32 4 L56 18 V46 L32 60 L8 46 V18 Z" fill="none" stroke="url(#c6g)" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="32" cy="32" r="7" fill="url(#c6g)"/>
+        </svg>
+        <span class="rt">Nova Power BI</span>
+        <span class="tabs"><span>Home</span><span>Insert</span><span>Modeling</span></span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

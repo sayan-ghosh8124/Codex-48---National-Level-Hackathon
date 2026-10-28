@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BrandGuard</title>
+    <link rel="stylesheet" href="style.css?v=20261028-01" />
+  </head>
+  <body>
+    <main>
+      <header class="topbar">
+        <div class="brand" aria-label="BrandGuard home">
+          <div class="brand-mark" aria-hidden="true">BG</div>
+          <div class="brand-text">
+            <strong>BrandGuard</strong>
+            <span>Pre-publication governance</span>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <nav class="tablist" aria-label="BrandGuard pages" role="tablist">
+            <button type="button" class="tab-btn" role="tab" aria-selected="true" data-tab="submit">Submit</button>
+            <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="findings">Findings</button>
+            <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="review">Queue</button>
+            <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="admin">Admin</button>
+            <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="insights">Insights</button>
+          </nav>
+
+          <div class="session-controls">
+            <div class="field" role="group" aria-label="Current user">
+              <label for="userRole">Role</label>
+              <select id="userRole" aria-label="Choose current role">
+                <option value="creator">Creator</option>
+                <option value="manager">Manager</option>
+                <option value="reviewer">Reviewer</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="field" role="group" aria-label="Current user name">
+              <label for="userName">User</label>
+              <input id="userName" type="text" value="ava.creator" aria-label="User name" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="layout">
+        <div class="panel" id="submit-panel" data-panel="submit">
+          <div class="banner" role="note">
+            <strong>AI disclosure:</strong> Anthropic's Claude is used as an external service for optional content checks. The content is treated as data, not instructions.
+          </div>
+          <div class="form-grid" style="margin-top: 18px;">
+            <div class="form-group">
+              <label for="contentTitle">Title</label>
+              <input id="contentTitle" type="text" placeholder="Launch announcement" />
+            </div>
+
+            <div class="form-group">
+              <label for="contentChannel">Channel</label>
+              <select id="contentChannel">
+                <option value="social">Social</option>
+                <option value="email">Email</option>
+                <option value="web">Web</option>
+                <option value="press">Press</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="contentBody">Content to review</label>
+              <textarea id="contentBody" placeholder="Draft your post or campaign copy here."></textarea>
+            </div>
+
+            <div class="form-grid" style="margin-top: 18px;">
+              <div class="form-group">
+                <label for="imageInput">Image upload (PNG/JPG)</label>
+                <input id="imageInput" type="file" accept="image/png,image/jpeg" />
+              </div>
+              <div class="form-group">
+                <label for="altTextInput">Alt text</label>
+                <input id="altTextInput" type="text" placeholder="Describes the image for accessibility" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="textColorInput">Text colour</label>
+                  <input id="textColorInput" type="text" value="#F5F7FF" placeholder="#F5F7FF" />
+                </div>
+                <div class="form-group">
+                  <label for="backgroundColorInput">Background colour</label>
+                  <input id="backgroundColorInput" type="text" value="#05070F" placeholder="#05070F" />
+                </div>
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <input id="deterministicOnly" type="checkbox" />
+              <label for="deterministicOnly">Run deterministic checks only</label>
+            </div>
+
+            <div class="inline-actions">
+              <button id="submitContentBtn" class="primary-btn" type="button">Submit for review</button>
+              <button id="imageCheckBtn" class="secondary-btn" type="button">Check image accessibility</button>
+              <button id="loadSampleBtn" class="ghost-btn" type="button">Load sample</button>
+            </div>
+          </div>
+
+          <div id="submitStatus" class="status info" role="status" aria-live="polite">Ready.</div>
+        </div>
+
+        <aside class="panel" id="summary-panel" data-panel="submit">
+          <h3>Review summary</h3>
+          <div class="kpis">
+            <div class="kpi">
+              <span class="muted">Open items</span>
+              <strong id="metricOpen">0</strong>
+            </div>
+            <div class="kpi">
+              <span class="muted">High severity</span>
+              <strong id="metricHigh">0</strong>
+            </div>
+            <div class="kpi">
+              <span class="muted">Approval rate</span>
+              <strong id="metricApproval">0%</strong>
+            </div>
+          </div>
+          <div class="summary-list" style="margin-top: 18px;">
+            <div class="summary-card">
+              <h4>Most common category</h4>
+              <p id="summaryCategory">—</p>
+            </div>
+            <div class="summary-card">
+              <h4>Flagged rule gap</h4>
+              <p id="summaryGap">—</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel" id="findings-panel" data-panel="findings" style="display:none; margin-top: 24px;">
+        <h2>Findings</h2>
+        <div id="findingsList" class="summary-list"></div>
+      </section>
+
+      <section class="panel" id="review-panel" data-panel="review" style="display:none; margin-top: 24px;">
+        <h2>Reviewer queue</h2>
+        <div id="queueList" class="queue-list"></div>
+      </section>
+
+      <section class="panel" id="admin-panel" data-panel="admin" style="display:none; margin-top: 24px;">
+        <h2>Knowledge base</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="adminKind">Entity</label>
+            <select id="adminKind">
+              <option value="rules">Rules</option>
+              <option value="facts">Facts</option>
+              <option value="terms">Terms</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="adminPayload">JSON payload</label>
+            <textarea id="adminPayload" placeholder='{"id":"R16","category":"tone","text":"Use plain language",...}'></textarea>
+          </div>
+          <div class="inline-actions">
+            <button id="saveAdminBtn" class="primary-btn" type="button">Save item</button>
+            <button id="loadAdminBtn" class="ghost-btn" type="button">Load list</button>
+          </div>
+        </div>
+        <div id="adminList" class="rule-list" style="margin-top: 18px;"></div>
+      </section>
+
+      <section class="panel" id="insights-panel" data-panel="insights" style="display:none; margin-top: 24px;">
+        <h2>Insights</h2>
+        <div class="kpis" id="insightCards">
+          <div class="kpi"><span class="muted">Dismissal rate</span><strong id="insightDismissal">0%</strong></div>
+          <div class="kpi"><span class="muted">Stale facts</span><strong id="insightStale">0</strong></div>
+          <div class="kpi"><span class="muted">Avg. approval time</span><strong id="insightTime">0d</strong></div>
+        </div>
+        <div style="margin-top:16px; display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:18px;">
+          <div class="summary-card">
+            <h4>Category trend</h4>
+            <div id="categoryChart" class="chart-box" aria-label="Category chart"></div>
+          </div>
+          <div class="summary-card">
+            <h4>Rule concerns</h4>
+            <div id="ruleChart" class="chart-box" aria-label="Rule chart"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js?v=20261028-01"></script>
+  </body>
+</html>

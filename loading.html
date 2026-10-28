@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - Nova Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        
+        /* 3D Galaxy Background */
+        .galaxy-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: galaxyRotate 60s linear infinite;
+        }
+        
+        @keyframes galaxyRotate {
+            0% { transform: rotateZ(0deg) rotateX(60deg); }
+            100% { transform: rotateZ(360deg) rotateX(60deg); }
+        }
+        
+        /* Galaxy Core */
+        .galaxy-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #fff 0%, #a855f7 30%, #3b82f6 60%, transparent 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 
+                0 0 60px #a855f7,
+                0 0 120px #3b82f6,
+                0 0 200px rgba(168, 85, 247, 0.5);
+            animation: corePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes corePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+        
+        /* Spiral Arms */
+        .spiral-arm {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform-origin: center center;
+            animation: armRotate 30s linear infinite;
+        }
+        
+        .spiral-arm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(168, 85, 247, 0.3) 30deg,
+                rgba(59, 130, 246, 0.4) 60deg,
+                rgba(139, 92, 246, 0.3) 90deg,
+                transparent 120deg
+            );
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: armGlow 4s ease-in-out infinite;
+        }
+        
+        .spiral-arm:nth-child(2) {
+            animation-delay: -15s;
+            animation-direction: reverse;
+        }
+        
+        @keyframes armRotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes armGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        /* 3D Star Field */
+        .star-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite, moveInward 8s linear infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        
+        @keyframes moveInward {
+            0% { 
+                transform: translateZ(500px) scale(0);
+                opacity: 0;
+            }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { 
+                transform: translateZ(-500px) scale(3);
+                opacity: 0;
+            }
+        }
+        
+        /* Nebula Clouds */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: nebulaFloat 20s ease-in-out infinite;
+        }
+        
+        .nebula-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #7c3aed 0%, #3b82f6 50%, transparent 100%);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .nebula-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #a855f7 0%, #ec4899 50%, transparent 100%);
+            top: 60%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+        
+        .nebula-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #6366f1 0%, #8b5cf6 50%, transparent 100%);
+            bottom: 20%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+        
+        @keyframes nebulaFloat {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1); 
+                opacity: 0.3; 
+            }
+            33% { 
+                transform: translate(30px, -30px) scale(1.1); 
+                opacity: 0.5; 
+            }
+            66% { 
+                transform: translate(-20px, 20px) scale(0.9); 
+                opacity: 0.4; 
+            }
+        }
+        
+        /* Loading Container */
+        .loading-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            color: white;
+        }
+        
+        /* 3D Logo Container */
+        .logo-container {
+            margin-bottom: 2rem;
+            animation: logoFloat 4s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        
+        .logo {
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.8) 0%, rgba(59, 130, 246, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            margin: 0 auto 1rem auto;
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            box-shadow: 
+                0 0 40px rgba(168, 85, 247, 0.6),
+                0 0 80px rgba(59, 130, 246, 0.4),
+                inset 0 0 40px rgba(168, 85, 247, 0.3);
+            animation: logoGlow 2s ease-in-out infinite, logoSpin 10s linear infinite;
+            transform-style: preserve-3d;
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.8);
+            animation: orbitSpin 2s linear infinite;
+        }
+        
+        @keyframes logoGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 40px rgba(168, 85, 247, 0.6),
+                    0 0 80px rgba(59, 130, 246, 0.4),
+                    inset 0 0 40px rgba(168, 85, 247, 0.3);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 60px rgba(168, 85, 247, 0.8),
+                    0 0 120px rgba(59, 130, 246, 0.6),
+                    0 0 180px rgba(139, 92, 246, 0.4),
+                    inset 0 0 60px rgba(168, 85, 247, 0.5);
+            }
+        }
+        
+        @keyframes logoSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        @keyframes orbitSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .brand-name {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, #a855f7 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+            animation: textGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes textGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            color: #a5b4fc;
+            letter-spacing: 2px;
+        }
+        
+        /* Galaxy Spinner */
+        .galaxy-spinner {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem auto;
+        }
+        
+        .spinner-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            animation: galaxySpin 2s linear infinite;
+        }
+        
+        .spinner-ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            border-top-color: #a855f7;
+            border-right-color: #3b82f6;
+            animation-duration: 1.5s;
+        }
+        
+        .spinner-ring:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-bottom-color: #ec4899;
+            border-left-color: #8b5cf6;
+            animation-duration: 2s;
+            animation-direction: reverse;
+        }
+        
+        .spinner-ring:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-top-color: #fff;
+            animation-duration: 1s;
+        }
+        
+        @keyframes galaxySpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            color: #c7d2fe;
+            letter-spacing: 1px;
+        }
+        
+        /* Cosmic Progress Bar */
+        .progress-container {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 0 auto 2rem auto;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
+            border-radius: 3px;
+            width: 0%;
+            animation: progressFill 3s ease-in-out forwards;
+            box-shadow: 0 0 20px #a855f7;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8));
+            animation: shimmer 1s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(30px); }
+        }
+        
+        /* Loading Steps */
+        .loading-steps {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .step {
+            margin-bottom: 0.8rem;
+            opacity: 0;
+            animation: stepFadeIn 0.5s ease-in-out forwards;
+            color: #c7d2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .step:nth-child(1) { animation-delay: 0.5s; }
+        .step:nth-child(2) { animation-delay: 1s; }
+        .step:nth-child(3) { animation-delay: 1.5s; }
+        .step:nth-child(4) { animation-delay: 2s; }
+        
+        .step i {
+            color: #a855f7;
+            font-size: 0.8rem;
+        }
+        
+        /* Shooting Stars */
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: shoot 3s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100px) translateY(-100px);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px));
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .brand-name { font-size: 2rem; }
+            .tagline { font-size: 1rem; }
+            .logo { width: 100px; height: 100px; font-size: 2.5rem; }
+            .progress-container { width: 250px; }
+        }
+        
+        @media (max-width: 480px) {
+            .brand-name { font-size: 1.8rem; }
+            .logo { width: 80px; height: 80px; font-size: 2rem; }
+            .progress-container { width: 200px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Galaxy Background -->
+    <div class="galaxy-container">
+        <div class="galaxy-core"></div>
+        <div class="spiral-arm"></div>
+        <div class="spiral-arm"></div>
+    </div>
+    
+    <!-- Nebula Clouds -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+    
+    <!-- 3D Star Field -->
+    <div class="star-field" id="starField"></div>
+    
+    <!-- Shooting Stars -->
+    <div class="shooting-star" style="top: 20%; left: 0; animation-delay: 0s;"></div>
+    <div class="shooting-star" style="top: 60%; left: 0; animation-delay: 1.5s;"></div>
+    <div class="shooting-star" style="top: 40%; left: 0; animation-delay: 3s;"></div>
+    
+    <!-- Loading Content -->
+    <div class="loading-container">
+        <div class="logo-container">
+            <div class="logo">
+                <svg width="96" height="96" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="loadingLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#9d86ff"/>
+                            <stop offset="100%" stop-color="#7fe8ff"/>
+                        </linearGradient>
+                    </defs>
+                    <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="url(#loadingLogoGrad)" stroke-width="2.5" transform="rotate(-24 32 32)"/>
+                    <circle cx="32" cy="32" r="8.5" fill="url(#loadingLogoGrad)"/>
+                    <circle cx="32" cy="32" r="13" fill="none" stroke="url(#loadingLogoGrad)" stroke-width="1" opacity="0.45"/>
+                    <circle cx="52" cy="20" r="2.6" fill="#7fe8ff"/>
+                </svg>
+            </div>
+            <div class="brand-name">Nova AutoML & AI data platform</div>
+            <div class="tagline">Data Intelligence Beyond Limits</div>
+        </div>
+        
+        <div class="galaxy-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        
+        <div class="loading-text" id="loading-text">Initializing Galaxy...</div>
+        
+        <div class="progress-container">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <div class="loading-steps">
+            <div class="step">
+                <i class="fa fa-star"></i>
+                <span>Connecting to cosmic database...</span>
+            </div>
+            <div class="step">
+                <i class="fa fa-star"></i>
+                <span>Warping through data streams...</span>
+            </div>
+            <div class="step">
+                <i class="fa fa-star"></i>
+                <span>Aligning neural networks...</span>
+            </div>
+            <div class="step">
+                <i class="fa fa-star"></i>
+                <span>Ready for hyperspace!</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate 3D Star Field
+        const starField = document.getElementById('starField');
+        const starCount = 200;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Random position
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const delay = Math.random() * 8;
+            const duration = 5 + Math.random() * 5;
+            const size = 1 + Math.random() * 2;
+            
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDelay = `${delay}s`;
+            star.style.animationDuration = `${duration}s`;
+            
+            // Color variation
+            const colors = ['#fff', '#a855f7', '#3b82f6', '#ec4899', '#8b5cf6'];
+            star.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            starField.appendChild(star);
+        }
+        
+        // Loading text updates
+        const loadingTexts = [
+            'Initializing Galaxy...',
+            'Connecting to cosmic database...',
+            'Warping through data streams...',
+            'Aligning neural networks...',
+            'Calibrating analytics...',
+            'Welcome to AutoML!'
+        ];
+        
+        const loadingTextElement = document.getElementById('loading-text');
+        let textIndex = 0;
+        
+        function updateLoadingText() {
+            if (textIndex < loadingTexts.length) {
+                loadingTextElement.textContent = loadingTexts[textIndex];
+                textIndex++;
+            }
+        }
+        
+        const textInterval = setInterval(updateLoadingText, 500);
+        
+        // Redirect after 3 seconds
+        setTimeout(() => {
+            clearInterval(textInterval);
+            window.location.href = 'index.html';
+        }, 3000);
+        
+        // Interactive skip
+        document.addEventListener('click', () => {
+            clearInterval(textInterval);
+            window.location.href = 'index.html';
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                clearInterval(textInterval);
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
